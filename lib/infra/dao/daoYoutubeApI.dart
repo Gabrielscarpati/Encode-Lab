@@ -9,7 +9,7 @@ class DaoYoutube {
 
 
    Future fetchVideos({required String videoName}) async {
-    String url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=videoName&key=AIzaSyCjUPI_htV069Dy_3WxBu2ogPZTFJjF5bM';
+    String url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=$videoName%20video&key=AIzaSyACw03HC3DqbZkjboJMgTlX1Y7kyViHFfs';
     var response = await client.get(Uri.parse(url));
 
     if(response.statusCode == 200) {

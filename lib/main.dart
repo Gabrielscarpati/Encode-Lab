@@ -1,10 +1,7 @@
 import 'package:encode_lab/presenter/selectCities_4/selectCities_4.dart';
-import 'package:encode_lab/presenter/selectCities_4/teste.dart';
 import 'package:encode_lab/providers/detailsProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'domain/models/modelYouTubeAPi.dart';
-
 
 void main() async{
 

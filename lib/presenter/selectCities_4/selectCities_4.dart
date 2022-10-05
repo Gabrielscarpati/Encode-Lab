@@ -33,7 +33,7 @@ class _SelectCities_4State extends State<SelectCities_4> {
         ),
 
         toolbarHeight: 70,
-        title: Text('Search for a video',
+        title: Text(detailsProvider.snippetList.length.toString(),
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -100,7 +100,7 @@ class _SelectCities_4State extends State<SelectCities_4> {
             onPressed: () async{
              
                await detailsProvider.loadListSnippets(context);
-               detailsProvider.createDataSpreadSheet();
+               detailsProvider.createDataSpreadSheet(tempSnippetList: detailsProvider.snippetList);
 
               },
             child: Container(

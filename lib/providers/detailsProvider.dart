@@ -33,23 +33,35 @@ class DetailsProvider with ChangeNotifier {
   final _spreadsheetId = '1cPwiHj2KtEtr0I2iKakOtvx5yXeg4V8_Jio54gFJ8F0';
 
 
-  void createDataSpreadSheet()async{
+  void createDataSpreadSheet({required  List<Snippet> tempSnippetList}) async{
     final googleSheets = GSheets(_credential);
     
     final ss = await googleSheets.spreadsheet(_spreadsheetId);
     var sheet = ss.worksheetByTitle('Video1');
     
-    await sheet!.values.insertValue('Name', column: 2,row:1 );
-    await sheet!.values.insertValue('Title', column:3,row:1 );
-    await sheet!.values.insertValue('Url', column: 4,row:1 );
-    await sheet!.values.insertValue('Auth', column: 5,row:1 );
-    await sheet!.values.insertValue('eiii', column: 6,row:1 );
-    await sheet!.values.insertValue('Views', column: 7,row:1 );
+    sheet!.values.insertValue('channelId',column: 1,row: 1);
+    sheet.values.insertValue('channel Title',column: 2,row: 1);
+    sheet.values.insertValue('Description',column: 3,row: 1);
+    sheet.values.insertValue('Publication time',column: 4,row: 1);
+    sheet.values.insertValue('Published at',column: 5,row: 1);
+    sheet.values.insertValue('Title',column: 6,row: 1);
 
-    for(int i = 0; i<40; i++){
-    await sheet!.values.insertValue(i, column:1,row:i );
-    }
+    int i =1;
+   
+    tempSnippetList.forEach((element) {
+    final List firstRow = [];
+      i++;
+    
+      firstRow.add(element.channelId);
+      firstRow.add(element.channelTitle);
+      firstRow.add(element.description);
+      firstRow.add(element.publishTime);
+      firstRow.add(element.publishedAt);
+      firstRow.add(element.title);
+      sheet.values.insertRow(i, firstRow);
 
+    });
+   
   }
 
 
@@ -61,18 +73,18 @@ class DetailsProvider with ChangeNotifier {
     
   }
 
-
   Future<RespostaProcessamento> loadListSnippets(BuildContext context) async{
     RespostaProcessamento respostaProcessamento = RespostaProcessamento.ok();
 
     try{
-          print(videoName);
 
       List<Snippet> tempSnippetList = await DaoYoutube().snippetsFromJsom(videoName: videoName.text.trim());
       print(tempSnippetList.length);
       tempSnippetList.forEach((element) {
         snippetList.add(element);
       });
+
+      createDataSpreadSheet(tempSnippetList: tempSnippetList);
     }catch(err){
       respostaProcessamento = RespostaProcessamento.erro(err.toString());
     }
