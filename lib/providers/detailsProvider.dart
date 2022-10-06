@@ -40,8 +40,8 @@ class DetailsProvider with ChangeNotifier {
     var sheet = ss.worksheetByTitle('Video1');
     
     sheet!.values.insertValue('channelId',column: 1,row: 1);
-    sheet.values.insertValue('channel Title',column: 2,row: 1);
-    sheet.values.insertValue('Description',column: 3,row: 1);
+    sheet.values.insertValue('channel Name',column: 2,row: 1);
+    sheet.values.insertValue('Video Description',column: 3,row: 1);
     sheet.values.insertValue('Publication time',column: 4,row: 1);
     sheet.values.insertValue('Published at',column: 5,row: 1);
     sheet.values.insertValue('Title',column: 6,row: 1);
@@ -51,7 +51,6 @@ class DetailsProvider with ChangeNotifier {
     tempSnippetList.forEach((element) {
     final List firstRow = [];
       i++;
-    
       firstRow.add(element.channelId);
       firstRow.add(element.channelTitle);
       firstRow.add(element.description);

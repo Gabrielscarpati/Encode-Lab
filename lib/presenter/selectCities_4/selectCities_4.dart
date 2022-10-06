@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../providers/detailsProvider.dart';
-import '../selectCities_4/viewListSelectCities_4.dart';
-import '../selectCities_4/viewHeaderPesquisaCidade.dart';
+import 'viewListSearchYoutube.dart';
+import 'viewHeaderSearchYoutube.dart';
 
 
-class SelectCities_4 extends StatefulWidget {
-  const SelectCities_4({Key? key}) : super(key: key);
+class SearchYoutube extends StatefulWidget {
+  const SearchYoutube({Key? key}) : super(key: key);
 
   @override
-  _SelectCities_4State createState() => _SelectCities_4State();
+  _SearchYoutube createState() => _SearchYoutube();
 }
 
-class _SelectCities_4State extends State<SelectCities_4> {
+class _SearchYoutube extends State<SearchYoutube> {
 
 
 
   @override
   Widget build(BuildContext context) {
+    RoundedLoadingButtonController buttonController =RoundedLoadingButtonController();
     DetailsProvider detailsProvider = context.read<DetailsProvider>();
 
     double _ScreenWidth = MediaQuery.of(context).size.width;
@@ -33,7 +35,7 @@ class _SelectCities_4State extends State<SelectCities_4> {
         ),
 
         toolbarHeight: 70,
-        title: Text(detailsProvider.snippetList.length.toString(),
+        title: Text('Youtube to spread sheet conversor',
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -42,14 +44,13 @@ class _SelectCities_4State extends State<SelectCities_4> {
         centerTitle: true,
         backgroundColor: Colors.blue[900],
       ),
-
       body: Column(
         children: [
           Card(
             borderOnForeground: true,
             child: Padding(
               padding: const EdgeInsets.all(8),
-              child: ViewHeaderSelectCities_4(),
+              child: viewHeaderSearchYoutube(),
             ),
           ),
 
@@ -63,22 +64,12 @@ class _SelectCities_4State extends State<SelectCities_4> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Selecione as cidades que voce pretende trabalhar",
+                      "Click on the Button below to get the data in your spreed sheet ",
                       style: Theme.of(context).textTheme.headline3!.copyWith(
-                          fontSize: Theme.of(context)
-                              .textTheme
-                              .bodyText2!
-                              .fontSize),
+                              fontSize: 30,
+                            ),
                     ),
-                    Text(
-                      "Cidades selecionadas: ${8/*providerCitie.selectedcities.length*/} ",
-                      textAlign: TextAlign.start,
-                      style: Theme.of(context).textTheme.headline3!.copyWith(
-                          fontSize: Theme.of(context)
-                              .textTheme
-                              .bodyText2!
-                              .fontSize),
-                    ),
+            
                     const SizedBox(
                       height: 8,
                     )
@@ -88,7 +79,22 @@ class _SelectCities_4State extends State<SelectCities_4> {
             ),
           ),
 
-            ViewListSelectCities_4(),
+            detailsProvider.snippetList.isEmpty?
+
+            Center(
+              child: Container(
+                width: 100,
+                height: 100,
+                child: CircularProgressIndicator(
+                  color: Colors.indigo,
+                ),
+              ),
+            )
+
+            :viewListSearchYoutube(),
+
+
+
             ],
           ),
 
@@ -96,20 +102,37 @@ class _SelectCities_4State extends State<SelectCities_4> {
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: ElevatedButton(
+            style: ElevatedButton.styleFrom(primary: Colors.blue.shade900),
+      child: Ink(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [Colors.blue.shade900,Colors.blue.shade900,  Colors.blue.shade900],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+            borderRadius: BorderRadius.circular(30.0)
+        ),
 
-            onPressed: () async{
+        child: Container(
+          constraints: BoxConstraints(minWidth: 300.0, maxHeight: 50.0),
+          alignment: Alignment.center,
+          child: Text('CLICK HERE',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold
+            ),
+          ),
+        ),
+      ),
+      onPressed: () async{
              
                await detailsProvider.loadListSnippets(context);
                detailsProvider.createDataSpreadSheet(tempSnippetList: detailsProvider.snippetList);
-
               },
-            child: Container(
-              height: 50,
-              width: 300,
-              color: Colors.grey,
-              child: Text('here'),
-            ),
-          ),
+      
+    ),
+
         ),
       ),
     );
